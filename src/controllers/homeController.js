@@ -1,6 +1,10 @@
 const connection = require('../config/database');
 
 const getHomepage = (req,res) =>{
+    res.render('home.ejs')
+}
+
+const getConnection = (req,res) =>{
     let users = [];
     // simple query
     connection.query(
@@ -13,7 +17,6 @@ const getHomepage = (req,res) =>{
             res.send(JSON.stringify(users));
         }
     );
-
    
 }
 
