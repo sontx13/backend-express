@@ -1,7 +1,21 @@
 const connection = require('../config/database');
 
-const getHomepage = (req,res) =>{
+const getHomepage = async (req,res) =>{
+    // connection.query(
+    //     'SELECT * FROM Users u',
+    //     function(err, results, fields) {
+    //         users =results;
+    //         res.send(JSON.stringify(users));
+    //     }
+    // );
+    const [results, fields] = await connection.query( 'SELECT * FROM Users u');
+    console.log("results=="+results);
+
     res.render('home.ejs')
+}
+
+const getCreatePage = (req,res) =>{
+    res.render('create.ejs')
 }
 
 const getConnection = (req,res) =>{
@@ -20,26 +34,29 @@ const getConnection = (req,res) =>{
    
 }
 
-const postCreateUser = (req,res) =>{
+const postCreateUser = async (req,res) =>{
     console.log(">>req.body==="+req.body);
     let email = req.body.email;
     let myname = req.body.myname;
     let city = req.body.city;
 
-    console.log("email=="+email);
-    console.log("myname=="+myname);
-    console.log("city=="+city);
-    connection.query(
-        `INSERT INTO
-        Users(email, name, city)
-        VALUES(?,?,?)`,
-        [email, myname, city],
-        function(err, results){
-            console.log(results);
-            res.send('create new user success')
+    // connection.query(
+    //     `INSERT INTO
+    //     Users(email, name, city)
+    //     VALUES(?,?,?)`,
+    //     [email, myname, city],
+    //     function(err, results){
+    //         console.log(results);
+    //         res.send('create new user success')
             
-        }
+    //     }
+    // );
+    let [results, fields] = await connection.query(
+         `INSERT INTO Users(email, name, city) VALUES(?,?,?)`,
+        [email, myname, city]
     );
+    console.log(results);
+    res.send('create new user success')
     
 }
 
@@ -49,5 +66,5 @@ const getSontx13 = (req,res) =>{
 
 
 module.exports = {
-    getHomepage,getSontx13,postCreateUser
+    getHomepage,getSontx13,postCreateUser,getCreatePage
 }
