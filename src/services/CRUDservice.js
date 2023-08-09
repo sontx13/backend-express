@@ -30,8 +30,17 @@ const updateUsersById = async (email,myname,city,userId) =>{
        [email, myname, city,userId]
    );
  }
+
+ const deleteUsersById = async (userId) =>{
+    let [results, fields] = await connection.query(
+        `DELETE FROM Users 
+           WHERE id= ?
+        `,
+       [userId]
+   );
+ }
  
 
 module.exports ={
-    getAllUsers,getUsersById,updateUsersById
+    getAllUsers,getUsersById,updateUsersById,deleteUsersById
 }
