@@ -1,5 +1,5 @@
 const connection = require('../config/database');
-const {getAllUsers} = require('../services/CRUDservice');
+const {getAllUsers,getUsersById,updateUsersById} = require('../services/CRUDservice');
 
 const getHomepage = async (req,res) =>{
    
@@ -11,6 +11,13 @@ const getHomepage = async (req,res) =>{
 
 const getCreatePage = (req,res) =>{
     res.render('create.ejs')
+}
+
+const getEditPage = async(req,res) =>{
+    const userId = req.params.id;
+    let user = await getUsersById(userId);
+    console.log("userId=="+userId);
+    res.render('edit.ejs',{userEdit:user})
 }
 
 const getConnection = (req,res) =>{
@@ -55,11 +62,26 @@ const postCreateUser = async (req,res) =>{
     
 }
 
+const postUpdateUser = async (req,res) =>{
+    //console.log(">>req.body==="+req.body);
+    let email = req.body.email;
+    let myname = req.body.myname;
+    let city = req.body.city;
+    let userId = req.body.userId;
+
+    await updateUsersById(email,myname,city,userId);
+
+    res.redirect('/')
+    //console.log(results);
+    //res.send('updated new user success')
+    
+}
+
 const getSontx13 = (req,res) =>{
     res.render('sample.ejs')
 }
 
 
 module.exports = {
-    getHomepage,getSontx13,postCreateUser,getCreatePage
+    getHomepage,getSontx13,postCreateUser,getCreatePage,getEditPage,postUpdateUser
 }
