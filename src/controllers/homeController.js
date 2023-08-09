@@ -20,10 +20,34 @@ const getConnection = (req,res) =>{
    
 }
 
+const postCreateUser = (req,res) =>{
+    console.log(">>req.body==="+req.body);
+    let email = req.body.email;
+    let myname = req.body.myname;
+    let city = req.body.city;
+
+    console.log("email=="+email);
+    console.log("myname=="+myname);
+    console.log("city=="+city);
+    connection.query(
+        `INSERT INTO
+        Users(email, name, city)
+        VALUES(?,?,?)`,
+        [email, myname, city],
+        function(err, results){
+            console.log(results);
+            res.send('create new user success')
+            
+        }
+    );
+    
+}
+
 const getSontx13 = (req,res) =>{
     res.render('sample.ejs')
 }
 
+
 module.exports = {
-    getHomepage,getSontx13
+    getHomepage,getSontx13,postCreateUser
 }

@@ -29,3 +29,21 @@
     background-color: #04AA6D;
     color: white;
   }
+
+  fieldset {
+    background-color: #eeeeee;
+  }
+  
+  legend {
+    background-color: gray;
+    color: white;
+    padding: 5px 10px;
+  }
+  
+  input {
+    margin: 5px;
+  }
+
+  .input-group{
+    padding: 10px;
+  }
