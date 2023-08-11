@@ -42,7 +42,7 @@ const getEditPage = async(req,res) =>{
     const userId = req.params.id;
     //let user = await getUsersById(userId);
 
-    let user = await User.findById(userId);
+    let user = await User.findById(userId).exec();
     console.log("userId=="+userId);
     res.render('edit.ejs',{userEdit:user})
 }
@@ -66,8 +66,9 @@ const postUpdateUser = async (req,res) =>{
 const postDeleteUser = async (req,res) =>{
    
     let userId = req.params.id;
-    let user = await getUsersById(userId);
-    //await updateUsersById(userId);
+    //let user = await getUsersById(userId);
+    let user = await User.findById(userId).exec();
+ 
     res.render('delete.ejs',{userEdit:user})
     //res.redirect('/')
     
@@ -76,8 +77,10 @@ const postDeleteUser = async (req,res) =>{
 const postRemoveUser = async (req,res) =>{
    
     let userId = req.body.userId;
-    await deleteUsersById(userId);
-    //await updateUsersById(userId);
+    //await deleteUsersById(userId);
+
+    await User.deleteOne({_id:userId});
+    
     //res.render('delete.ejs',{userEdit:user})
     res.redirect('/')
     
