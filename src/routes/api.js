@@ -1,5 +1,5 @@
 const express = require('express')
-const {getUsersApi} = require('../controllers/apiController')
+const {getUsersApi,postCreateUserAPI} = require('../controllers/apiController')
 const routerAPI = express.Router()
 
 routerAPI.get('/', (req,res) =>{
@@ -7,5 +7,7 @@ routerAPI.get('/', (req,res) =>{
 });
 
 routerAPI.get('/users', getUsersApi);
+
+routerAPI.post('/users', postCreateUserAPI);
 
 module.exports = routerAPI
