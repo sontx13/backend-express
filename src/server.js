@@ -9,7 +9,7 @@ const connection = require('./config/database');
 const app = express();
 const port = process.env.PORT||3000;
 const hostname = process.env.HOST_NAME;
-const mongoose = require('mongoose');
+
 
 //config req.body
 app.use(express.json())
@@ -20,16 +20,9 @@ configViewEngine(app);
 //routers
 app.use('/',webRouters );
 
-
-const kittySchema = new mongoose.Schema({
-  name: String
-});
-
-const Kitten = mongoose.model('Kitten', kittySchema);
-
-const cat = new Kitten({ name: 'Silence' });
-
-cat.save();
+//const cat = new Kitten({ name: 'sontx' });
+  
+//cat.save();
 
 
 ( async()=>{

@@ -1,10 +1,13 @@
 const connection = require('../config/database');
 const {getAllUsers,getUsersById,updateUsersById,deleteUsersById} = require('../services/CRUDservice');
+const User = require('../model/User');
+
 
 const getHomepage = async (req,res) =>{
    
-    let results = await getAllUsers();
-    console.log("results=="+results);
+    let results = await User.find({});
+    //let results =[];
+    //console.log("results=="+results);
 
     res.render('home.ejs',{listUsers:results})
 }
@@ -19,22 +22,18 @@ const postCreateUser = async (req,res) =>{
     let myname = req.body.myname;
     let city = req.body.city;
 
-    // connection.query(
-    //     `INSERT INTO
-    //     Users(email, name, city)
-    //     VALUES(?,?,?)`,
-    //     [email, myname, city],
-    //     function(err, results){
-    //         console.log(results);
-    //         res.send('create new user success')
-            
-    //     }
+    // let [results, fields] = await connection.query(
+    //      `INSERT INTO Users(email, name, city) VALUES(?,?,?)`,
+    //     [email, myname, city]
     // );
-    let [results, fields] = await connection.query(
-         `INSERT INTO Users(email, name, city) VALUES(?,?,?)`,
-        [email, myname, city]
-    );
-    console.log(results);
+    // console.log(results);
+
+    await User.create({
+        email:email,
+        name:myname,
+        city:city,
+    })
+
     res.send('create new user success')
     
 }
