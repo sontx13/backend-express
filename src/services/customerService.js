@@ -30,10 +30,18 @@ const createArrayCustomerService = async (arrayCustomerData) => {
 }
 
 
-const getCustomersService = async () => {
-    try {
-        let results = await Customer.find({});
+const getCustomersService = async (limit,page) => {
 
+    try {
+        let results = null;
+        if (limit&&page) {
+            let offset = (page-1)*limit;
+
+            results  = await Customer.find({}).skip(offset).limit(limit).exec();
+        } else {
+            results  = await Customer.find({});
+        }
+    
         return results;
     } catch (error) {
         console.log(">>error"+error)
