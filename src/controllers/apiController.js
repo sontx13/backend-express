@@ -1,5 +1,5 @@
 const User = require('../model/User');
-
+const {uploadSingleFile,uploadMultipleFile} = require('../services/fileService');
 
 const getUsersApi = async (req,res) =>{
    
@@ -58,5 +58,42 @@ const deleteUserAPI = async (req,res) =>{
     
 }
 
+const postUploadSingleFileAPI = async (req,res) =>{
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    } 
 
-module.exports = {getUsersApi,postCreateUserAPI,putUpdateUserAPI,deleteUserAPI}
+    console.log(">>>file==="+req.files.image);
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let results = await uploadSingleFile(req.files.image);
+    console.log(">>>results==="+results);
+
+    return res.status(200).json({
+        errorcode: 0,
+        data:"oki SingleFile"
+    })
+    
+}
+
+const postUploadMultipleFileAPI = async (req,res) =>{
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }  
+
+    if (Array.isArray(req.files.image)) {
+        let results = await uploadMultipleFile(req.files.image);
+        return res.status(200).json({
+            errorcode: 0,
+            data:results
+        })
+    } else {
+        return await postUploadSingleFileAPI(req,res);
+    }
+    
+   
+    
+}
+
+
+
+module.exports = {getUsersApi,postCreateUserAPI,putUpdateUserAPI,deleteUserAPI,postUploadSingleFileAPI,postUploadMultipleFileAPI}
