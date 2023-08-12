@@ -1,6 +1,6 @@
 const Customer = require("../model/Customer");
 
-const createCustomerSevice = async (customerData) => {
+const createCustomerService = async (customerData) => {
    try {
       let results = await Customer.create({
         name: customerData.name,
@@ -18,6 +18,17 @@ const createCustomerSevice = async (customerData) => {
    }
 }
 
+const createArrayCustomerService = async (arrayCustomerData) => {
+    try {
+        let results = await Customer.insertMany(arrayCustomerData);
+
+        return results;
+    } catch (error) {
+        console.log(">>error"+error)
+        return null;
+    }
+}
+
 module.exports = {
-    createCustomerSevice
+    createCustomerService,createArrayCustomerService
 }
