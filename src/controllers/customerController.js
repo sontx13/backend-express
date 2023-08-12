@@ -1,5 +1,5 @@
 const {uploadSingleFile} = require('../services/fileService');
-const {createCustomerService,createArrayCustomerService} = require('../services/customerService');
+const {createCustomerService,createArrayCustomerService,getCustomersService,putCustomersService,deleteCustomersService} = require('../services/customerService');
 
 module.exports = {
     postCreateCustomerAPI : async (req,res) => {
@@ -49,8 +49,73 @@ module.exports = {
                     data: customer
                 }
             )
+        }  
+    },
+    getCustomersApi: async (req,res) => {
+        let customers = await getCustomersService();
+
+        if (customers) {
+            return res.status(200).json(
+                {
+                    EC:0,
+                    data: customers
+                }
+            )
+        } else {
+            return res.status(200).json(
+                {
+                    EC:-1,
+                    data: customers
+                }
+            )
+        }  
+    },
+    putCustomersApi: async (req,res) => {
+        let{id,name,address,email} = req.body;
+
+        let customerData = {
+            id,name,address,email
         }
-        
-        
+
+        //console.log(">>data=="+customerData)
+        let customers = await putCustomersService(customerData);
+
+        if (customers) {
+            return res.status(200).json(
+                {
+                    EC:0,
+                    data: customers
+                }
+            )
+        } else {
+            return res.status(200).json(
+                {
+                    EC:-1,
+                    data: customers
+                }
+            )
+        }  
+    },
+    deleteCustomerApi: async (req,res) => {
+        let id = req.body.id;
+
+        //console.log(">>data=="+customerData)
+        let customers = await deleteCustomersService(id);
+
+        if (customers) {
+            return res.status(200).json(
+                {
+                    EC:0,
+                    data: customers
+                }
+            )
+        } else {
+            return res.status(200).json(
+                {
+                    EC:-1,
+                    data: customers
+                }
+            )
+        }  
     }
 }
