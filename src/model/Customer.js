@@ -12,6 +12,15 @@ const CustomerSchema = new mongoose.Schema({
     description: String,
   },
   {
+    statics: {
+      findByName(name) {
+        return this.find({ name: new RegExp(name, 'i') });
+      },
+
+      findByEmail(name) {
+        return this.find({ email: new RegExp(email, 'i') });
+      },
+    },
     timestamps:true
   }
 );
