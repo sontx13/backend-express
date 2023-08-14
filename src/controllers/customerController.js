@@ -1,6 +1,7 @@
 const {uploadSingleFile} = require('../services/fileService');
 const {createCustomerService,createArrayCustomerService,getCustomersService,putCustomersService,deleteCustomersService,deleteArrayCustomerService} = require('../services/customerService');
 
+
 module.exports = {
     postCreateCustomerAPI : async (req,res) => {
 
@@ -53,14 +54,12 @@ module.exports = {
     },
     getCustomersApi: async (req,res) => {
 
-        console.log("query=="+req.query);
-
         let limit = req.query.limit;
         let page = req.query.page;
-
+   
         let customers = null;
         if (limit&&page) {
-            customers = await getCustomersService(limit,page);
+            customers = await getCustomersService(limit,page,req.query);
         } else {
             customers = await getCustomersService();
         }
